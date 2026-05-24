@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Climate Impact Viz</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Climate Collective</h1>
+            <p>By: Sana Gupta, Aarushi Jain</p>
+        </header>
+
+        <section id="introduction" class="ui-card">
+            <h2>The Challenge: Global Averages vs. Local Extremes</h2>
+            <p>
+                When we talk about climate change, the conversation is usually dominated by abstract, global metrics—like limiting global warming to 1.5°C or 2°F. But nobody lives in a "global average." 
+            </p>
+            <p>
+                The real, human impact of a warming planet isn't just a slightly warmer afternoon; it is the drastic increase in the frequency, duration, and intensity of extreme local heat events. For a student walking to class or a family living near the University of California, San Diego, global metrics completely fail to communicate how their daily environment is actually going to change over the next few decades.
+            </p>
+            
+            <h2>Our Approach: Downscaling the Narrative</h2>
+            <p>
+                To bridge this gap, The Climate Collective is bypassing the global averages. We are tapping directly into the raw CMIP6 climate models—the exact supercomputer simulations used by global climate scientists—to extract localized, high-resolution temperature data. 
+            </p>
+            <p>
+                The dashboard below allows you to explore the stark difference between our historical climate baseline and a projected high-emissions future (the SSP585 scenario). By bringing massive, complex climate datasets down to a specific set of coordinates, we aim to transform abstract scientific statistics into a tangible, explorable reality.
+            </p>
+        </section>
+
+        <div id="controls" class="ui-card">
+            <label for="year-slider">Year: <span id="year-display">1950</span></label>
+            <input type="range" id="year-slider" min="1950" max="2100" value="1950" step="1">
+        </div>
+
+        <div class="interactive-section">
+            <div id="map-container">
+                <div id="map"></div>
+                <p class="caption">Local Heat Intensity: UCSD Campus</p>
+            </div>
+            
+            <div id="chart-container">
+                <div id="chart"></div>
+                <p class="caption">Historical baseline vs. High-emissions projection (SSP585)</p>
+            </div>
+        </div>
+
+        <div id="dashboard-guide" class="ui-card">
+            <h3>How to Explore the Data</h3>
+            <p>
+                The Timeline Slider: Drag the year slider above the charts to travel from the historical baseline (1950) into future projections (up to 2100). The timeline pivots from recorded history (blue) to a high-emissions projection model (red) after the year 2014.
+            </p>
+            <p>
+                The Heat Map: As time progresses, watch the radius over the UCSD campus. The color gradient shifts from cool yellows to deep reds, simulating the escalating intensity of extreme heat exposure at the local level.
+            </p>
+        </div>
+        
+        <div id="roadmap-section" class="ui-card">
+            <h3>Final Showcase Roadmap</h3>
+            <p>
+                This prototype establishes the core data pipeline and interactive baseline. For the final project deliverable, we are expanding this visualization across three strategic pillars to create a complete explorable explanation:
+            </p>
+            
+            <div class="roadmap-cards">
+                <div class="card">
+                    <h4>1. The Technical Challenge</h4>
+                    <p>
+                        The Pivot: The most challenging part of our project to design will be scaling the visualization to allow users to explore different regions without crashing the web browser. Because the raw CMIP6 climate datasets are massive, loading high-resolution global data dynamically on the front-end is impossible. 
+                    </p>
+                    <p>
+                        The Goal: To overcome this, we must optimize our architecture by adopting a curated client-side approach. We will use Python to pre-calculate and package the climate timelines for 10 geographically diverse California cities, allowing users to seamlessly jump between locations instantly.
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>2. Humanizing the Metric</h4>
+                    <p>
+                        The Pivot: Average annual temperatures hide the reality of climate change. A 2°F increase sounds mild, but it masks severe localized extremes.
+                    </p>
+                    <p>
+                        The Goal: We will shift our data processing to calculate "Extreme Heat Days" (e.g., days exceeding 90°F or 100°F). Watching the timeline project a jump from 5 extreme heat days a year to 40 days a year delivers a much more visceral, human-relatable narrative.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h4>3. Resolving the Scale</h4>
+                    <p>
+                        The Pivot: To allow users to explore different regions without crashing the browser with massive global CMIP6 datasets, we must optimize our architecture.
+                    </p>
+                    <p>
+                        The Goal: We will adopt a "curated client-side" approach. We will use Python to pre-calculate the climate timelines for 10 geographically diverse California cities (coastal, inland, northern, and southern). Users will be able to seamlessly jump between these locations instantly without the need for a live backend server.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4>4. The Call to Action</h4>
+                    <p>
+                        The Pivot: Explorable explanations should empower, not just doom-scroll. Currently, we only show the SSP585 (worst-case, high emissions) scenario. 
+                    </p>
+                    <p>
+                        The Goal: We will integrate a moderate emissions scenario (SSP245) alongside the worst-case data. By allowing the user to toggle between these policy paths, the visualization itself becomes the Call to Action: proving mathematically that changing our emissions trajectory drastically reduces local extreme heat.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div> 
+    <script src="js/main.js"></script>
+</body>
+</html>
