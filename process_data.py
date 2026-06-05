@@ -1,13 +1,14 @@
 import pandas as pd
 import xarray as xr
-import gcsfs  # We need this to handle the Google Cloud mapping
+import gcsfs
 
 target_lat = 32.88
 target_lon = 360 - 117.23
 
 def fetch_temp_data(df_catalog, experiment):
     subset = df_catalog[
-        (df_catalog['variable_id'] == 'tas') &
+        (df_catalog['variable_id'] == 'tasmax') & 
+        (df_catalog['table_id'] == 'day') &       
         (df_catalog['source_id'] == 'MIROC6') &
         (df_catalog['experiment_id'] == experiment)
     ]
@@ -23,16 +24,20 @@ def fetch_temp_data(df_catalog, experiment):
     except KeyError:
         ds = xr.open_zarr(mapper, consolidated=False)
         
-    local_data = ds['tas'].sel(lat=target_lat, lon=target_lon, method='nearest')
+    local_data = ds['tasmax'].sel(lat=target_lat, lon=target_lon, method='nearest')
     
     df = local_data.to_dataframe().reset_index()
     df['year'] = df['time'].apply(lambda x: x.year)
     
-    annual_avg = df.groupby('year')['tas'].mean().reset_index()
-    annual_avg['tas_f'] = (annual_avg['tas'] - 273.15) * 9/5 + 32
-    annual_avg['experiment'] = experiment
+    df['tasmax_f'] = (df['tasmax'] - 273.15) * 9/5 + 32
     
-    return annual_avg[['year', 'tas_f', 'experiment']]
+    df['is_extreme'] = df['tasmax_f'] > 90
+    
+    extreme_counts = df.groupby('year')['is_extreme'].sum().reset_index()
+    extreme_counts.rename(columns={'is_extreme': 'extreme_days'}, inplace=True)
+    extreme_counts['experiment'] = experiment
+    
+    return extreme_counts[['year', 'extreme_days', 'experiment']]
 
 def main():
     catalog = pd.read_csv('data/cmip6-zarr-consolidated-stores-noQC.csv')

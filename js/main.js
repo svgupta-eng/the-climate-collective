@@ -20,17 +20,17 @@ const heatCircle = L.circle([32.8801, -117.2340], {
 d3.json("data/ucsd_temperature.json").then(fullData => {
     
     // --- MAP LEGEND ---
-    const minTemp = d3.min(fullData, d => d.tas_f);
-    const maxTemp = d3.max(fullData, d => d.tas_f);
+    const minDays = d3.min(fullData, d => d.extreme_days);
+    const maxDays = d3.max(fullData, d => d.extreme_days);
 
     const legend = L.control({position: 'bottomright'});
     legend.onAdd = function () {
         const div = L.DomUtil.create('div', 'info legend');
         div.innerHTML = `
-            <strong style="display:block; margin-bottom: 5px;">Temperature (°F)</strong>
+            <strong style="display:block; margin-bottom: 5px;">Days over 100°F</strong>
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px;">
-                <span>${minTemp.toFixed(1)}</span>
-                <span>${maxTemp.toFixed(1)}</span>
+                <span>${Math.round(minDays)}</span>
+                <span>${Math.round(maxDays)}</span>
             </div>
             <div style="width: 150px; height: 15px; background: linear-gradient(to right, #fee08b, #b30000); border: 1px solid #ccc; border-radius: 3px;"></div>
         `;
@@ -50,16 +50,18 @@ d3.json("data/ucsd_temperature.json").then(fullData => {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // The missing X scale!
     const x = d3.scaleLinear()
         .domain(d3.extent(fullData, d => d.year))
         .range([0, width]);
 
+    // Y scale starts dynamically based on the data minimum
     const y = d3.scaleLinear()
-        .domain([minTemp - 1, maxTemp + 1])
+        .domain([Math.max(0, minDays - 5), maxDays + 5]) 
         .range([height, 0]);
 
     const colorScale = d3.scaleLinear()
-        .domain([minTemp, maxTemp])
+        .domain([minDays, maxDays])
         .range(["#fee08b", "#b30000"]);
 
     svg.append("g")
@@ -67,15 +69,16 @@ d3.json("data/ucsd_temperature.json").then(fullData => {
         .call(d3.axisBottom(x).tickFormat(d3.format("d")));
     svg.append("g").call(d3.axisLeft(y));
 
+    // Updated Y-axis label
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left)
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text("Temperature (°F)");
+        .text("Days over 100°F");
 
-    const line = d3.line().x(d => x(d.year)).y(d => y(d.tas_f));
+    const line = d3.line().x(d => x(d.year)).y(d => y(d.extreme_days));
 
     const histPath = svg.append("path").attr("fill", "none").attr("stroke", "steelblue").attr("stroke-width", 2);
     const futPath = svg.append("path").attr("fill", "none").attr("stroke", "#b30000").attr("stroke-width", 2);
@@ -124,14 +127,14 @@ d3.json("data/ucsd_temperature.json").then(fullData => {
         // Move the line and circle to the exact data point
         focus.select(".hover-line").attr("transform", `translate(${x(d.year)}, 0)`);
         focus.select(".hover-circle")
-            .attr("transform", `translate(${x(d.year)}, ${y(d.tas_f)})`)
+            .attr("transform", `translate(${x(d.year)}, ${y(d.extreme_days)})`)
             .attr("fill", d.experiment === 'historical' ? "steelblue" : "#b30000");
 
-        // Populate and position the tooltip
+        // Updated Tooltip Text
         tooltip.transition().duration(50).style("opacity", 1);
         tooltip.html(`
             <strong>Year:</strong> ${d.year} <br>
-            <strong>Temp:</strong> ${d.tas_f.toFixed(1)} °F <br>
+            <strong>Extreme Days:</strong> ${Math.round(d.extreme_days)} <br>
             <strong>Location:</strong> UCSD Campus
         `)
         .style("left", (event.pageX + 15) + "px")
@@ -158,17 +161,17 @@ d3.json("data/ucsd_temperature.json").then(fullData => {
 
         const currentYearData = fullData.find(d => d.year == currentYear);
         if (currentYearData) {
-            const currentTemp = currentYearData.tas_f;
+            const currentDays = currentYearData.extreme_days;
             heatCircle.setStyle({
-                fillColor: colorScale(currentTemp),
+                fillColor: colorScale(currentDays),
                 fillOpacity: 0.6 
             });
             
             const sizeScale = d3.scaleLinear()
-                .domain([minTemp, maxTemp])
+                .domain([minDays, maxDays])
                 .range([3000, 6000]); 
             
-            heatCircle.setRadius(sizeScale(currentTemp));
+            heatCircle.setRadius(sizeScale(currentDays));
         }
     }
 

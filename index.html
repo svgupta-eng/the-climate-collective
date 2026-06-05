@@ -47,17 +47,17 @@
             
             <div id="chart-container">
                 <div id="chart"></div>
-                <p class="caption">Historical baseline vs. High-emissions projection (SSP585)</p>
+                <p class="caption">Annual Days Exceeding 100°F (Historical vs. SSP585)</p>
             </div>
         </div>
 
-        <div id="dashboard-guide" class="ui-card">
-            <h3>How to Explore the Data</h3>
+        <div id="data-context" class="ui-card">
+            <h3>Understanding the Visualization</h3>
             <p>
-                The Timeline Slider: Drag the year slider above the charts to travel from the historical baseline (1950) into future projections (up to 2100). The timeline pivots from recorded history (blue) to a high-emissions projection model (red) after the year 2014.
+                The interactive dashboard above allows you to travel from our historical baseline (1950) into future projections (up to 2100) by dragging the timeline slider. The timeline pivots from recorded history (blue) to a high-emissions projection model (red) after the year 2014. As time progresses, the heat radius over the UCSD campus intensifies from cool yellows to deep reds, simulating escalating extreme heat exposure.
             </p>
             <p>
-                The Heat Map: As time progresses, watch the radius over the UCSD campus. The color gradient shifts from cool yellows to deep reds, simulating the escalating intensity of extreme heat exposure at the local level.
+                <strong>Note on Data Resolution:</strong> Because CMIP6 models use a broad spatial grid, the nearest data cell for coastal coordinates often blends with inland desert temperatures. While this creates a higher historical baseline for extreme heat days than recorded directly at the coast, the projected rate of change remains a critical indicator of escalating local extremes.
             </p>
         </div>
         
@@ -69,36 +69,27 @@
             
             <div class="roadmap-cards">
                 <div class="card">
-                    <h4>1. The Technical Challenge</h4>
-                    <p>
-                        The Pivot: The most challenging part of our project to design will be scaling the visualization to allow users to explore different regions without crashing the web browser. Because the raw CMIP6 climate datasets are massive, loading high-resolution global data dynamically on the front-end is impossible. 
-                    </p>
-                    <p>
-                        The Goal: To overcome this, we must optimize our architecture by adopting a curated client-side approach. We will use Python to pre-calculate and package the climate timelines for 10 geographically diverse California cities, allowing users to seamlessly jump between locations instantly.
-                    </p>
-                </div>
-                <div class="card">
-                    <h4>2. Humanizing the Metric</h4>
+                    <h4>1. Humanizing the Metric</h4>
                     <p>
                         The Pivot: Average annual temperatures hide the reality of climate change. A 2°F increase sounds mild, but it masks severe localized extremes.
                     </p>
                     <p>
-                        The Goal: We will shift our data processing to calculate "Extreme Heat Days" (e.g., days exceeding 90°F or 100°F). Watching the timeline project a jump from 5 extreme heat days a year to 40 days a year delivers a much more visceral, human-relatable narrative.
+                        The Goal: We will refine our data processing to calculate "Extreme Heat Days" (e.g., days exceeding 100°F) across all locations. Watching the timeline project a massive jump in extreme heat days delivers a much more visceral, human-relatable narrative.
                     </p>
                 </div>
                 
                 <div class="card">
-                    <h4>3. Resolving the Scale</h4>
+                    <h4>2. The Core Technical Challenge</h4>
                     <p>
-                        The Pivot: To allow users to explore different regions without crashing the browser with massive global CMIP6 datasets, we must optimize our architecture.
+                        The Pivot: The most challenging part of our project to design will be scaling the visualization to allow users to explore different regions without crashing the web browser. Because the raw CMIP6 climate datasets are massive, loading high-resolution global data dynamically on the front-end is impossible. 
                     </p>
                     <p>
-                        The Goal: We will adopt a "curated client-side" approach. We will use Python to pre-calculate the climate timelines for 10 geographically diverse California cities (coastal, inland, northern, and southern). Users will be able to seamlessly jump between these locations instantly without the need for a live backend server.
+                        The Goal: To overcome this, we must optimize our architecture by adopting a curated client-side approach. We will use Python to pre-calculate and package the climate timelines for 10 geographically diverse California cities. <strong>Crucially, this expansion will allow us to directly address and compare the unique infrastructure, health, and socio-economic implications of extreme heat across different major urban centers.</strong>
                     </p>
                 </div>
 
                 <div class="card">
-                    <h4>4. The Call to Action</h4>
+                    <h4>3. The Call to Action</h4>
                     <p>
                         The Pivot: Explorable explanations should empower, not just doom-scroll. Currently, we only show the SSP585 (worst-case, high emissions) scenario. 
                     </p>
@@ -106,7 +97,6 @@
                         The Goal: We will integrate a moderate emissions scenario (SSP245) alongside the worst-case data. By allowing the user to toggle between these policy paths, the visualization itself becomes the Call to Action: proving mathematically that changing our emissions trajectory drastically reduces local extreme heat.
                     </p>
                 </div>
-                
             </div>
         </div>
         
