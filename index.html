@@ -9,11 +9,12 @@
     
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>The Climate Collective</h1>
-            <p>By: Sana Gupta, Aarushi Jain</p>
+            <p>By: Sana Gupta, Aarushi Jain, Arah Sanders</p>
         </header>
 
         <section id="introduction" class="ui-card">
@@ -35,6 +36,9 @@
         </section>
 
         <div id="controls" class="ui-card">
+            <label for="city-select">Select City:</label>
+            <select id="city-select"></select>
+
             <label for="year-slider">Year: <span id="year-display">1950</span></label>
             <input type="range" id="year-slider" min="1950" max="2100" value="1950" step="1">
         </div>
@@ -42,12 +46,12 @@
         <div class="interactive-section">
             <div id="map-container">
                 <div id="map"></div>
-                <p class="caption">Local Heat Intensity: UCSD Campus</p>
+                <p class="caption">Click on a city on the world map or choose one from the dropdown.</p>
             </div>
             
             <div id="chart-container">
                 <div id="chart"></div>
-                <p class="caption">Annual Days Exceeding 100°F (Historical vs. SSP585)</p>
+                <p class="caption">Annual Days Exceeding 90°F (Historical vs. SSP585)</p>
             </div>
         </div>
 
