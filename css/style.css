@@ -1,15 +1,15 @@
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
-    background-color: #f4f4f9; 
+    background-color: #f4f4f9;
     margin: 0;
     padding: 40px 20px;
-    font-size: 1.15rem; 
+    font-size: 1.15rem;
 }
 
 .container {
-    max-width: 1400px; 
-    margin: 0 auto; 
+    max-width: 1400px;
+    margin: 0 auto;
     background-color: #ffffff;
     padding: 50px 70px;
     border-radius: 8px;
@@ -40,33 +40,8 @@ h2, h3 {
 .interactive-section {
     display: flex;
     flex-direction: row;
-    gap: 40px;
-    align-items: center; 
-}
-
-#chart-container {
-    flex: 2; 
-}
-
-#chart {
-    width: 100%; 
-    position: relative; 
-}
-
-#chart-description {
-    flex: 1; 
-    background-color: #f9f9fc;
-    padding: 30px;
-    border-radius: 8px;
-    border-left: 5px solid #b30000;
-    line-height: 1.7;
-}
-
-.interactive-section {
-    display: flex;
-    flex-direction: row;
     gap: 30px;
-    align-items: flex-start; 
+    align-items: flex-start;
     margin-top: 40px;
 }
 
@@ -82,12 +57,22 @@ h2, h3 {
 }
 
 #chart-container {
-    flex: 2; /* the chart gets twice as much space as the map */
+    flex: 2;
 }
 
 #chart {
     height: 400px;
     width: 100%;
+    position: relative;
+}
+
+#chart-description {
+    flex: 1;
+    background-color: #f9f9fc;
+    padding: 30px;
+    border-radius: 8px;
+    border-left: 5px solid #b30000;
+    line-height: 1.7;
 }
 
 .caption {
@@ -97,7 +82,6 @@ h2, h3 {
     margin-top: 10px;
 }
 
-/* Add to the bottom of css/style.css */
 #controls {
     background-color: #f9f9fc;
     padding: 20px;
@@ -125,14 +109,13 @@ h2, h3 {
     cursor: pointer;
 }
 
-/* Add to the bottom of css/style.css */
 #dashboard-guide {
     background-color: #f9f9fc;
     padding: 30px;
     border-radius: 8px;
     border-left: 5px solid #b30000;
     line-height: 1.7;
-    margin-top: 40px; /* Creates breathing room below the charts */
+    margin-top: 40px;
 }
 
 #dashboard-guide h3 {
@@ -145,23 +128,19 @@ h2, h3 {
     color: #2c3e50;
 }
 
-/* Add to the bottom of css/style.css */
-
-/* Styling for the D3 Chart Tooltip */
 .chart-tooltip {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #2c3e50;
     padding: 10px 15px;
     border-radius: 5px;
-    pointer-events: none; /* Prevents the tooltip from blocking mouse movements */
+    pointer-events: none;
     font-size: 0.95rem;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 1000;
     opacity: 0;
 }
 
-/* Styling for the Leaflet Map Legend */
 .info.legend {
     background: white;
     padding: 10px;
@@ -170,7 +149,52 @@ h2, h3 {
     color: #333;
 }
 
-/* Replace the dilemma CSS with this at the bottom of css/style.css */
+#data-context {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    border-top: 5px solid #b30000;
+    line-height: 1.7;
+    margin-top: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#moderate-emissions-section,
+#emissions-impact-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    border-top: 5px solid #2a9d8f;
+    line-height: 1.7;
+    margin-top: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#moderate-emissions-chart,
+#emissions-impact-chart {
+    width: 100%;
+    margin-top: 25px;
+    overflow-x: auto;
+}
+
+#moderate-emissions-chart svg,
+#emissions-impact-chart svg {
+    width: 100%;
+    height: auto;
+}
+
+.takeaway {
+    background: #f6f4ee;
+    border-left: 5px solid #2a9d8f;
+    padding: 16px;
+    margin-top: 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
 #roadmap-section {
     background-color: #ffffff;
     padding: 30px;
@@ -216,4 +240,28 @@ h2, h3 {
     border-bottom: 2px solid #eaeaea;
     padding-bottom: 10px;
     margin-bottom: 15px;
+}
+
+@media (max-width: 900px) {
+    .container {
+        padding: 30px 25px;
+    }
+
+    .interactive-section {
+        flex-direction: column;
+    }
+
+    #map-container,
+    #chart-container {
+        width: 100%;
+    }
+
+    .roadmap-cards {
+        flex-direction: column;
+    }
+
+    #year-slider {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
